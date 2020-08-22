@@ -4,25 +4,23 @@ h1 {
   font-size: 60px;
 }
 
+h2{
+  color:ivory;
+}
+
+.ivory
+{
+  color:ivory;
+}
+
+
 body {
   margin: 25px;
   background-color: white;
   font-family: arial, sans-serif;
   font-size: 14px;
   }
-  
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 10%;
-  height: 10%;
-  }
-
-a {
-  color:ivory
-}
-
+ 
 .box {
   padding: 10px;
   background: rgb(201, 114, 82);
@@ -34,7 +32,7 @@ img{
   height: 70%
 }
 
-#description{
+.center{
   text-align: center;
 }
 
@@ -42,6 +40,7 @@ img{
   padding: 2px;
   background: rgb(134, 36, 0);
   border-radius: 5px;
+  color: ivory
 }
 
 .indent{

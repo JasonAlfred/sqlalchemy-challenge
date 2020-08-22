@@ -72,7 +72,8 @@ def tobs_page():
     for item in tobs:
         tobs_item = {item[0]:item[1]}
         tobs_dict.update(tobs_item)
-    tobs_dict_final = [active_station, {'date_temps':tobs_dict}]
+    tobs_dict_final = ['Station', {
+        'station_id' : active_station}, {'date_temps': tobs_dict}]
     return jsonify(tobs_dict_final)
 
 

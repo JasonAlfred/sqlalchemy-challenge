@@ -7,7 +7,7 @@
     <meta name="description" content="SQL Alchemy and Flask">
     <meta name="author" content="Jason Alfred">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="static/styles.css">
 </head>
 
 <body>
@@ -15,8 +15,7 @@
     <div class="row">
         <div class="col-md-12">
             <h1>Hawaii Weather Data API - SQL Alchemy</h1>
-            <p id="description">This is a site to return JSON of Hawaii weather data through an API.  Please click any of the links below to return JSON data.</p>
-
+            <p class="center">This is a site to return JSON of Hawaii weather data through an API.  Please click any of the links below to return JSON data.</p>
             <br><br>
         </div>
     </div>
@@ -25,22 +24,26 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-            <img src="Resources/sunset.jpg" alt="Hawaii Sunset">
+            <img src="static/sunset.jpg" alt="Hawaii Sunset">
         </div>
 
         <div class="col-md-4">
             <div class="box">
-                <h2>JSON data links</h2>
-                <a href="/api/v1.0/precipitation" class="item">Precipitation Data</a><br>
+                <h2 class="center">JSON data links</h2>
+                <a class="btn btn-primary, item" href="/api/v1.0/precipitation" role="button">Precipitation Data</a><br>
                 <p class=indent>Temp data for last 12 months</p>
-                <a href="/api/v1.0/stations" class="item">Repoting Stations</a><br>
+                <a class="btn btn-primary, item" href="/api/v1.0/stations" role="button">Repoting Stations</a><br>
                 <p class=indent>Reporting stations in data</p>              
-                <a href="/api/v1.0/tobs" class="item">Temperature Data</a><br>
+                <a class="btn btn-primary, item" href="/api/v1.0/tobs" role="button">Temperature Data</a><br>
                 <p class=indent>Measured temps for last 12 months on most active station</p>   <br>
 
-                <h2>TODO</h2>
-                <a href="/api/v1.0/<start>">Temparature Stats from a Start Date  </a><br>
-                <a href="/api/v1.0/<start>/<end>">Temparature Stats from a Start Date and End Date</a><br>
+                <h2 class="center">Date API Calls</h2>
+                <p>Links below return temperature data filtered by start and/or end date</p>
+                <p>Copy URLs below and query &lt;start&gt; or &lt;end&gt; with a date in yyyy-mm-dd format</p>
+                <ul class="ivory">
+                    <li>/api/v1.0/&lt;start&gt;</li>
+                    <li>/api/v1.0/&lt;start&gt;/&lt;end&gt;</li>
+                </ul>
             </div>
         </div>
     </div>
