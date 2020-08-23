@@ -28,8 +28,8 @@ def index_page():
 @app.route("/api/v1.0/precipitation")
 #TODO Are we to include the station name here as well?
 def precip_page():    
-    session = Session(engine)
     try:
+        session = Session(engine)
         precip_data = session.query(Measurement.date, Measurement.prcp).filter(Measurement.date > '2016-08-22').filter(Measurement.prcp.isnot(None)).all()
         session.close()
         precip_dict = {}
@@ -42,8 +42,8 @@ def precip_page():
 
 @app.route("/api/v1.0/stations")
 def stations_page(): 
-    session = Session(engine)
     try:
+        session = Session(engine)
         stations = session.query(Station.name).all()
         session.close()
         stations_list=[]
@@ -57,42 +57,49 @@ def stations_page():
 
 @app.route("/api/v1.0/tobs")
 def tobs_page(): 
-    session = Session(engine)
-    get_active_station = session.query(Measurement.station, func.count(Measurement.station)).filter(Measurement.date > year_date())\
-        .group_by(Measurement.station).order_by(func.count(Measurement.station).desc()).first()
-    session.close()
-    active_station = get_active_station[0]
+    try:
+        session = Session(engine)
+        get_active_station = session.query(Measurement.station, func.count(Measurement.station)).filter(Measurement.date > year_date())\
+            .group_by(Measurement.station).order_by(func.count(Measurement.station).desc()).first()
+        session.close()
+        active_station = get_active_station[0]
 
-    session = Session(engine)
-    tobs = session.query(Measurement.date, Measurement.tobs).filter(Measurement.date > year_date())\
-        .order_by(Measurement.date).all()
-    session.close()
+        session = Session(engine)
+        tobs = session.query(Measurement.date, Measurement.tobs).filter(Measurement.date > year_date())\
+            .order_by(Measurement.date).all()
+        session.close()
 
-    tobs_dict = {}
-    for item in tobs:
-        tobs_item = {item[0]:item[1]}
-        tobs_dict.update(tobs_item)
-    tobs_dict_final = ['Station', {
-        'station_id' : active_station}, {'date_temps': tobs_dict}]
-    return jsonify(tobs_dict_final)
-
+        tobs_dict = {}
+        for item in tobs:
+            tobs_item = {item[0]:item[1]}
+            tobs_dict.update(tobs_item)
+        tobs_dict_final = ['Station', {
+            'station_id' : active_station}, {'date_temps': tobs_dict}]
+        return jsonify(tobs_dict_final)
+    except:
+        return jsonify({"error": f"Temperatures not found."}), 404
 
 @app.route("/api/v1.0/<start>")
 def temp_stats(start):
-    session = Session(engine)
-    tempdata = session.query(Station.name, func.min(Measurement.tobs), func.max(Measurement.tobs), func.avg(Measurement.tobs))\
-            .join(Measurement, Station.station==Measurement.station).filter(Measurement.date >= start).group_by(Station.name).all()
-    session.close()
-    return jsonify(compile_data(tempdata))
+    try:
+        session = Session(engine)
+        tempdata = session.query(Station.name, func.min(Measurement.tobs), func.max(Measurement.tobs), func.avg(Measurement.tobs))\
+                .join(Measurement, Station.station==Measurement.station).filter(Measurement.date >= start).group_by(Station.name).all()
+        session.close()
+        return jsonify(compile_data(tempdata))
+    except:
+        return jsonify({"error": f"Search not found."}), 404
 
 @app.route("/api/v1.0/<start>/<end>")
 def temp_stats2(start, end):
-    session = Session(engine)
-    tempdata = session.query(Station.name, func.min(Measurement.tobs), func.max(Measurement.tobs), func.avg(Measurement.tobs))\
-            .join(Measurement, Station.station==Measurement.station).filter(Measurement.date.between(start, end)).group_by(Station.name).all()
-    session.close()
-    return jsonify(compile_data(tempdata))
-
+    try:
+        session = Session(engine)
+        tempdata = session.query(Station.name, func.min(Measurement.tobs), func.max(Measurement.tobs), func.avg(Measurement.tobs))\
+                .join(Measurement, Station.station==Measurement.station).filter(Measurement.date.between(start, end)).group_by(Station.name).all()
+        session.close()
+        return jsonify(compile_data(tempdata))
+    except:
+        return jsonify({"error": f"Search not found."}), 404
 
 
 def compile_data(tempdata):
@@ -113,6 +120,5 @@ def year_date():
     d2 = d - dateutil.relativedelta.relativedelta(months=12)
     return d2
 
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
